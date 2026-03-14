@@ -61,3 +61,8 @@ Chen, X., Qin, C., Fang, C., Wang, C., Zhu, C., Zhuang, F., Zhu, H., & Xiong, H.
 Gulyamov, S. S., Suyunova, D., Juraev, J., Xabibullaev, D., Sartaeva, S., Musaev, B., & Ilhomov, B. (2024). *Predictive analytics for workforce planning in the context of digital transformation of manufacturing*.
 
 Lim, J. B., & Sörling, A. (2024). *The data analyst job landscape: Insights on skills requirements*.
+
+---
+
+
+
