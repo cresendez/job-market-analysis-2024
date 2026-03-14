@@ -1,6 +1,7 @@
 ---
 title: "Job Market Analysis 2024"
 format: html
+bibliography: references.bib
 ---
 
 # Introduction
@@ -53,15 +54,6 @@ Carolina Resendez
 ... 
 
 # References
-
-Adesina, A. A., Iyelolu, T. V., & Paul, P. O. (2024). *Optimizing business processes with advanced analytics: Techniques for efficiency and productivity improvement*.
-
-Chen, X., Qin, C., Fang, C., Wang, C., Zhu, C., Zhuang, F., Zhu, H., & Xiong, H. (2024). *Job-SDF: A multi-granularity dataset for job skill demand forecasting and benchmarking*.
-
-Gulyamov, S. S., Suyunova, D., Juraev, J., Xabibullaev, D., Sartaeva, S., Musaev, B., & Ilhomov, B. (2024). *Predictive analytics for workforce planning in the context of digital transformation of manufacturing*.
-
-Lim, J. B., & Sörling, A. (2024). *The data analyst job landscape: Insights on skills requirements*.
-
 ---
 
 
