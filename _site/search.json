@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Job Market Analysis 2024",
@@ -12,12 +19,5 @@
     "title": "Job Market Analysis 2024",
     "section": "Business Analytics, Data Science, and Machine Learning Trends",
     "text": "Business Analytics, Data Science, and Machine Learning Trends\nThis project will focus on the following questions:\n\nWhat skills are most in demand for business analytics, data science, and machine learning roles?\nHow are job descriptions evolving as AI and advanced analytics become more common?\nWhat do recent studies suggest about the relationship between technical skills and soft skills in analytics-related roles?\nWhat can students learn from these trends when planning their own career paths?"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
   }
 ]
