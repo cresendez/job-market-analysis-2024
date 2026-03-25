@@ -1,0 +1,19 @@
+---
+title: "Data Analysis"
+format: html
+---
+
+# Data Analysis
+
+## Introduction
+This page presents the data cleaning and exploratory data analysis for the project dataset.
+
+## Data Loading
+
+## Data Cleaning
+
+## Exploratory Data Analysis
+
+## Key Findings
+
+## References
