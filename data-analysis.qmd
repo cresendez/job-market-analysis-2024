@@ -7,11 +7,167 @@ format: html
 This page presents the data cleaning and exploratory data analysis for the project dataset.
 
 ## Data Loading
+The dataset used in this project is the Lightcast job postings dataset. It contains job posting metadata, employer information, job titles, skills, education requirements, employment type, remote status, salary fields, location fields, and multiple industry and occupation classification systems such as NAICS and SOC.
+
+```{python}
+import pandas as pd
+import numpy as np
+```
+```{python}
+df = pd.read_csv("data/lightcast_job_postings.csv")
+df.head()
+```
+```{python}
+df.shape
+```
+```{python}
+df.columns.tolist()
+```
 
 ## Data Cleaning
+### Dropping Unnecessary Columns
+
+Several columns are not needed for the main analysis because they are identifiers, tracking fields, raw URLs, or older versions of industry and occupation classification codes. Removing these columns makes the dataset easier to work with and avoids redundancy.
+
+In particular, multiple versions of NAICS and SOC codes appear in the dataset. To simplify the analysis, only the most recent detailed versions are kept where relevant, such as `NAICS_2022_6` and `SOC_2021_4`. Older or overlapping versions are removed to reduce duplication and keep the classification system consistent.
+
+```{python}
+columns_to_drop = [
+    "ID", "URL", "ACTIVE_URLS", "DUPLICATES", "LAST_UPDATED_TIMESTAMP",
+    "NAICS2", "NAICS3", "NAICS4", "NAICS5", "NAICS6",
+    "SOC_2", "SOC_3", "SOC_5"
+]
+
+existing_drop_cols = [col for col in columns_to_drop if col in df.columns]
+df = df.drop(columns=existing_drop_cols)
+
+df.shape
+```
+
+### Handling Missing Values
+
+Missing values are handled differently depending on the type of variable. Numerical fields are filled with the median when appropriate because the median is less sensitive to extreme values. Categorical fields are labeled as "Unknown" when the missing category may still be analytically useful. Columns with a very high share of missing values can be dropped because they contribute little reliable information.
+
+```{python}
+missing_summary = df.isna().sum().sort_values(ascending=False)
+missing_summary.head(20)
+
+missing_percent = (df.isna().mean() * 100).sort_values(ascending=False)
+missing_percent.head(20)
+
+high_missing_cols = missing_percent[missing_percent > 50].index.tolist()
+df = df.drop(columns=high_missing_cols)
+
+categorical_fill_cols = [
+    "COMPANY_NAME", "EMPLOYMENT_TYPE_NAME", "REMOTE_TYPE_NAME",
+    "CITY_NAME", "COUNTY_NAME", "MSA_NAME", "NAICS_2022_6_NAME",
+    "SOC_2021_4_NAME", "LOT_CAREER_AREA_NAME", "LIGHTCAST_SECTORS_NAME"
+]
+
+for col in categorical_fill_cols:
+    if col in df.columns:
+        df[col] = df[col].fillna("Unknown")
+len(high_missing_cols), high_missing_cols[:20]
+
+numeric_fill_cols = [
+    "MIN_YEARS_EXPERIENCE", "MAX_YEARS_EXPERIENCE",
+    "MIN_EDULEVELS", "MAX_EDULEVELS",
+    "SALARY_FROM", "SALARY_TO", "SALARY"
+]
+
+for col in numeric_fill_cols:
+    if col in df.columns:
+        df[col] = pd.to_numeric(df[col], errors="coerce")
+        df[col] = df[col].fillna(df[col].median())
+```
+
+### Removing Duplicates
+
+Duplicate job postings can overstate demand if the same job appears more than once. To reduce this issue, duplicate rows are removed based on key identifying fields such as job title, company, location, and posting date.
+
+```{python}
+duplicate_subset = [col for col in ["TITLE_NAME", "COMPANY_NAME", "LOCATION", "POSTED"] if col in df.columns]
+
+before_rows = len(df)
+df = df.drop_duplicates(subset=duplicate_subset, keep="first")
+after_rows = len(df)
+
+before_rows, after_rows, before_rows - after_rows
+```
+
+### Checking Data Types
+
+Some columns, especially salary and experience variables, should be numeric for analysis.
+
+```{python}
+numeric_check_cols = ["SALARY", "SALARY_FROM", "SALARY_TO", "MIN_YEARS_EXPERIENCE", "MAX_YEARS_EXPERIENCE"]
+
+existing_numeric_check_cols = [col for col in numeric_check_cols if col in df.columns]
+
+for col in existing_numeric_check_cols:
+    df[col] = pd.to_numeric(df[col], errors="coerce")
+
+df[existing_numeric_check_cols].dtypes
+```
 
 ## Exploratory Data Analysis
+This section explores key trends in business analytics, data science, and machine learning job postings, including industry, remote work, salary fields, job titles, and employers.
+
+### Job Postings by Industry
+
+Understanding industry demand helps job seekers prioritize skill development.
+
+```{python}
+if "NAICS_2022_6_NAME" in df.columns:
+    df["NAICS_2022_6_NAME"].value_counts().head(10)
+```
+
+### Salary Summary
+```{python}
+salary_cols = [col for col in ["SALARY", "SALARY_FROM", "SALARY_TO"] if col in df.columns]
+
+if len(salary_cols) > 0:
+    df[salary_cols].describe()
+else:
+    print("No salary columns are available after cleaning.")
+```
+
+### Remote vs. On-Site Jobs
+```{python}
+if "REMOTE_TYPE_NAME" in df.columns:
+    df["REMOTE_TYPE_NAME"].value_counts(dropna=False)
+```
+
+### Top Job Titles
+```{python}
+title_col = "TITLE_NAME" if "TITLE_NAME" in df.columns else "TITLE_RAW"
+df[title_col].value_counts().head(10)
+```
+
+### Top Companies
+```{python}
+if "COMPANY_NAME" in df.columns:
+    df["COMPANY_NAME"].value_counts().head(10)
+```
+
+### Top Cities
+```{python}
+if "CITY_NAME" in df.columns:
+    df["CITY_NAME"].value_counts().head(10)
+```
 
 ## Key Findings
+The exploratory analysis gives a first look at job postings connected to business analytics, data science, and machine learning. The results suggest that these roles are needed across different industries, employers, and locations, which shows that demand for analytics related talent is not limited to one type of company or sector.
+
+The most common job titles help show which roles appear most often in the market, while the employer and city summaries give a better sense of where opportunities may be concentrated. The remote work breakdown is also useful because it gives students a clearer idea of how flexible these roles may be in today’s job market.
+
+The salary related fields offer a starting point for understanding compensation, although not every posting includes complete salary information. Overall, this analysis suggests that students interested in business analytics, data science, and machine learning should pay attention to role titles, hiring patterns, location trends, and remote work options when thinking about their career paths.
 
 ## References
+This analysis is based on the Lightcast job postings dataset provided in Module 2: Lab 01. Additional academic sources will be added that support the findings conlusion: 
+
+U.S. Bureau of Labor Statistics. (2025). Data scientists (Occupational Outlook Handbook). U.S. Department of Labor. 
+https://www.bls.gov/ooh/math/data-scientists.htm
+
+Bristow Holland. (2025, May 19). Understanding data science salary trends and influencing factors. 
+https://www.bristowholland.com/insights/thought-leadership/understanding-data-science-salary-trends-and-influencing-factors/
