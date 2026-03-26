@@ -81,6 +81,26 @@ for col in numeric_fill_cols:
         df[col] = df[col].fillna(df[col].median())
 ```
 
+### Missing Values Heatmap
+
+The heatmap below shows where missing values are concentrated across the columns with the highest amount of missing data. This makes it easier to see whether missingness is isolated or spread across many variables.
+
+```{python}
+import matplotlib.pyplot as plt
+
+missing_matrix = df.isna().astype(int)
+cols_to_show = missing_matrix.sum().sort_values(ascending=False).head(20).index
+
+plt.figure(figsize=(12, 6))
+plt.imshow(missing_matrix[cols_to_show].T, aspect="auto", interpolation="nearest")
+plt.yticks(range(len(cols_to_show)), cols_to_show)
+plt.xlabel("Job posting records")
+plt.ylabel("Columns")
+plt.title("Missing Values Heatmap (Top 20 Columns)")
+plt.colorbar(label="Missing = 1, Present = 0")
+plt.show()
+```
+
 ### Removing Duplicates
 
 Duplicate job postings can overstate demand if the same job appears more than once. To reduce this issue, duplicate rows are removed based on key identifying fields such as job title, company, location, and posting date.
@@ -116,11 +136,23 @@ This section explores key trends in business analytics, data science, and machin
 ### Job Postings by Industry
 
 Understanding industry demand helps job seekers prioritize skill development.
-
 ```{python}
+import matplotlib.pyplot as plt
+
 if "NAICS_2022_6_NAME" in df.columns:
-    df["NAICS_2022_6_NAME"].value_counts().head(10)
+    industry_counts = df["NAICS_2022_6_NAME"].value_counts().head(10)
+
+    plt.figure(figsize=(10, 6))
+    industry_counts.plot(kind="bar")
+    plt.title("Top 10 Industries by Job Postings")
+    plt.xlabel("Industry")
+    plt.ylabel("Number of Job Postings")
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()
+    plt.show()
 ```
+
+This chart shows which industries appear most often in the dataset. It helps identify where demand for analytics-related roles is concentrated.
 
 ### Salary Summary
 ```{python}
@@ -133,27 +165,56 @@ else:
 ```
 
 ### Remote vs. On-Site Jobs
+
+This chart shows how job postings are distributed across remote work categories.
+
 ```{python}
 if "REMOTE_TYPE_NAME" in df.columns:
-    df["REMOTE_TYPE_NAME"].value_counts(dropna=False)
+    remote_counts = df["REMOTE_TYPE_NAME"].value_counts(dropna=False)
+
+    plt.figure(figsize=(8, 5))
+    remote_counts.plot(kind="bar")
+    plt.title("Remote vs. On-Site Job Postings")
+    plt.xlabel("Work Arrangement")
+    plt.ylabel("Number of Job Postings")
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()
+    plt.show()
 ```
 
 ### Top Job Titles
+
+This chart highlights the most common job titles in the dataset.
 ```{python}
 title_col = "TITLE_NAME" if "TITLE_NAME" in df.columns else "TITLE_RAW"
-df[title_col].value_counts().head(10)
-```
+title_counts = df[title_col].value_counts().head(10)
 
-### Top Companies
-```{python}
-if "COMPANY_NAME" in df.columns:
-    df["COMPANY_NAME"].value_counts().head(10)
+plt.figure(figsize=(10, 6))
+title_counts.plot(kind="bar")
+plt.title("Top 10 Job Titles")
+plt.xlabel("Job Title")
+plt.ylabel("Number of Job Postings")
+plt.xticks(rotation=45, ha="right")
+plt.tight_layout()
+plt.show()
 ```
 
 ### Top Cities
+
+This chart shows the cities with the highest number of job postings in the dataset.
+
 ```{python}
 if "CITY_NAME" in df.columns:
-    df["CITY_NAME"].value_counts().head(10)
+    city_counts = df["CITY_NAME"].value_counts().head(10)
+
+    plt.figure(figsize=(10, 6))
+    city_counts.plot(kind="bar")
+    plt.title("Top 10 Cities by Job Postings")
+    plt.xlabel("City")
+    plt.ylabel("Number of Job Postings")
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()
+    plt.show()
 ```
 
 ## Key Findings
