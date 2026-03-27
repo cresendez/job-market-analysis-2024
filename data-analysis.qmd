@@ -1,11 +1,13 @@
 ---
 title: "Research Introduction: Business Analytics, Data Science, and Machine Learning Trends in 2024"
 author: "Carolina Resendez and Saori Kikuchi"
-format: html
-    bibliography: references.bib
-    csl: csl/econometrica.csl
-    toc: true
 
+bibliography: references.bib
+
+    
+format: 
+  html:
+    toc: true
 ---
 
 ## Introduction
