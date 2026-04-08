@@ -1,62 +1,135 @@
----
-title: "Skill Gap Analysis"
-format: html
----
+## Skill Gap Analysis
 
-## Overview
+This page examines which skills appear most often in analytics-related job postings and what those patterns suggest for students preparing for business analytics, data science, and machine learning careers. The goal is to compare market demand with the types of skills that job seekers may need to strengthen.
 
-This section evaluates the gap between the skills required in the job market and the current skill levels of our team members. By comparing these two perspectives, we identify areas for improvement and provide actionable recommendations for career development.
-
----
-
-## Team Skill Matrix
-
-We assessed each team member’s proficiency across key technical skills using a scale from 1 (Beginner) to 5 (Expert).
+### Load Cleaned Data
 
 ```{python}
 import pandas as pd
-df = pd.read_csv(
-    "data/lightcast_job_postings.csv",
-    on_bad_lines="skip",
-    low_memory=False
+import matplotlib.pyplot as plt
+
+df_skills = pd.read_csv("data/lightcast_cleaned.csv")
+df_skills.shape
+```
+
+### Focus on Analytics-Related Roles
+
+This section limits the analysis to postings identified as analytics-related in the data cleaning stage.
+
+```{python}
+analytics_df = df_skills[df_skills["is_analytics_role"] == 1].copy()
+analytics_df.shape
+```
+
+### Most Common Specialized Skills
+
+This section identifies the most frequent specialized skills appearing in analytics-related roles.
+
+```{python}
+specialized = (
+    analytics_df["skills_specialized"]
+    .dropna()
+    .astype(str)
+    .str.split(";")
+    .explode()
+    .str.strip()
 )
 
-skills_data = {
-    "Name": ["Saori", "Carolina", "Member3"],
-    "Python": [2, 4, 2],
-    "SQL": [2, 4, 2],
-    "Machine Learning": [2, 4, 1],
-    "Cloud Computing": [1, 4, 1],
-    "Data Visualization": [2, 4, 2]
-}
-
-df_skills = pd.DataFrame(skills_data)
-df_skills = df_skills.set_index("Name")
-df_skills
+top_specialized = specialized.value_counts().head(15)
+top_specialized
 ```
 
 ```{python}
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-plt.figure(figsize=(8, 6))
-sns.heatmap(df_skills, annot=True, cmap="coolwarm", linewidths=0.5)
-plt.title("Team Skill Levels Heatmap")
+top_specialized.plot(kind="bar")
+plt.title("Top Specialized Skills in Analytics-Related Roles")
+plt.xlabel("Skill")
+plt.ylabel("Frequency")
+plt.xticks(rotation=45, ha="right")
 plt.show()
 ```
 
+### Most Common Software Skills
+
+This section highlights the software tools that appear most often in analytics-related job postings.
+
 ```{python}
-from collections import Counter
+software = (
+    analytics_df["skills_software"]
+    .dropna()
+    .astype(str)
+    .str.split(";")
+    .explode()
+    .str.strip()
+)
 
-if "SKILLS_NAME" in df.columns:
-    skills = df["SKILLS_NAME"].dropna().str.split(";").explode()
-    top_skills = skills.value_counts().head(10)
-
-    plt.figure(figsize=(10,5))
-    top_skills.plot(kind="bar")
-    plt.title("Top Skills in Job Market")
-    plt.xlabel("Skills")
-    plt.ylabel("Frequency")
-    plt.xticks(rotation=45)
-    plt.show()
+top_software = software.value_counts().head(15)
+top_software
 ```
+
+```{python}
+top_software.plot(kind="bar")
+plt.title("Top Software Skills in Analytics-Related Roles")
+plt.xlabel("Software Skill")
+plt.ylabel("Frequency")
+plt.xticks(rotation=45, ha="right")
+plt.show()
+```
+
+### Most Common Common Skills
+
+This section shows broader workplace and transferable skills that appear across analytics-related roles.
+
+```{python}
+common_skills = (
+    analytics_df["skills_common"]
+    .dropna()
+    .astype(str)
+    .str.split(";")
+    .explode()
+    .str.strip()
+)
+
+top_common = common_skills.value_counts().head(15)
+top_common
+```
+
+```{python}
+top_common.plot(kind="bar")
+plt.title("Top Common Skills in Analytics-Related Roles")
+plt.xlabel("Common Skill")
+plt.ylabel("Frequency")
+plt.xticks(rotation=45, ha="right")
+plt.show()
+```
+
+### Skill Counts by Role Type
+
+This section compares the average total number of listed skills between analytics-related and non-analytics roles.
+
+```{python}
+skill_count_summary = (
+    df_skills.groupby("is_analytics_role")["total_skill_count"]
+    .mean()
+    .reset_index()
+)
+
+skill_count_summary
+```
+
+```{python}
+skill_count_summary.plot(
+    x="is_analytics_role",
+    y="total_skill_count",
+    kind="bar",
+    legend=False
+)
+plt.title("Average Total Skill Count by Role Type")
+plt.xlabel("Is Analytics Role")
+plt.ylabel("Average Total Skill Count")
+plt.xticks(rotation=0)
+plt.show()
+```
+
+### Practical Interpretation
+
+The results on this page highlight which skills appear most often in analytics-related job postings. Technical tools and specialized skills help show what employers expect from candidates, while common skills reveal the broader workplace capabilities that still matter across roles. These patterns can help students identify where the strongest market demand exists and which areas may require additional preparation.

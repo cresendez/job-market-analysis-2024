@@ -1,8 +1,175 @@
+
+
 ## Data Cleaning
 
-We cleaned the dataset by:
-- Removing missing values
-- Handling inconsistent formats
-- Filtering relevant columns
+This page explains how the Lightcast job-posting dataset was prepared for analysis. The goal is to create a clean and consistent dataset for exploratory analysis, skill comparisons, clustering, regression, and classification.
 
-This ensures accurate analysis and reliable insights.
+### Data Source
+
+The project uses the file `lightcast_job_postings.csv`, stored in the `data` folder of the repository.
+
+### Initial Dataset Overview
+
+The dataset contains 131 variables and includes structured fields related to job titles, salary ranges, skills, work arrangements, education, experience, and occupational classification systems such as SOC, ONET, and NAICS.
+
+```{python}
+import pandas as pd
+import numpy as np
+import re
+
+df = pd.read_csv("data/lightcast_job_postings.csv", low_memory=False, on_bad_lines="skip")
+df.shape
+```
+
+### Selected Columns
+```{python}
+selected_cols = [
+    "TITLE_CLEAN",
+    "LOT_OCCUPATION_NAME",
+    "LOT_OCCUPATION_GROUP_NAME",
+    "LOT_SPECIALIZED_OCCUPATION_NAME",
+    "SALARY_FROM",
+    "SALARY_TO",
+    "ORIGINAL_PAY_PERIOD",
+    "SKILLS_NAME",
+    "SPECIALIZED_SKILLS_NAME",
+    "COMMON_SKILLS_NAME",
+    "SOFTWARE_SKILLS_NAME",
+    "CITY_NAME",
+    "STATE_NAME",
+    "REMOTE_TYPE_NAME",
+    "EDUCATION_LEVELS_NAME",
+    "MIN_YEARS_EXPERIENCE",
+    "MAX_YEARS_EXPERIENCE",
+    "SOC_2021_3_NAME",
+    "SOC_3_NAME",
+    "ONET_NAME",
+    "NAICS_2022_3_NAME",
+    "NAICS3_NAME",
+    "LIGHTCAST_SECTORS_NAME"
+]
+
+selected_cols = [c for c in selected_cols if c in df.columns]
+
+df_clean = df[selected_cols].copy()
+df_clean.shape
+```
+
+### Standardizing Core Variables
+```{python}
+df_clean["job_title"] = df_clean["TITLE_CLEAN"] if "TITLE_CLEAN" in df_clean.columns else np.nan
+df_clean["occupation_name"] = df_clean["LOT_OCCUPATION_NAME"] if "LOT_OCCUPATION_NAME" in df_clean.columns else np.nan
+df_clean["occupation_group"] = df_clean["LOT_OCCUPATION_GROUP_NAME"] if "LOT_OCCUPATION_GROUP_NAME" in df_clean.columns else np.nan
+df_clean["specialized_occupation"] = df_clean["LOT_SPECIALIZED_OCCUPATION_NAME"] if "LOT_SPECIALIZED_OCCUPATION_NAME" in df_clean.columns else np.nan
+
+df_clean["skills_all"] = df_clean["SKILLS_NAME"] if "SKILLS_NAME" in df_clean.columns else np.nan
+df_clean["skills_specialized"] = df_clean["SPECIALIZED_SKILLS_NAME"] if "SPECIALIZED_SKILLS_NAME" in df_clean.columns else np.nan
+df_clean["skills_common"] = df_clean["COMMON_SKILLS_NAME"] if "COMMON_SKILLS_NAME" in df_clean.columns else np.nan
+df_clean["skills_software"] = df_clean["SOFTWARE_SKILLS_NAME"] if "SOFTWARE_SKILLS_NAME" in df_clean.columns else np.nan
+
+df_clean["city"] = df_clean["CITY_NAME"] if "CITY_NAME" in df_clean.columns else np.nan
+df_clean["state"] = df_clean["STATE_NAME"] if "STATE_NAME" in df_clean.columns else np.nan
+df_clean["remote_type"] = df_clean["REMOTE_TYPE_NAME"] if "REMOTE_TYPE_NAME" in df_clean.columns else np.nan
+
+df_clean["education_level"] = df_clean["EDUCATION_LEVELS_NAME"] if "EDUCATION_LEVELS_NAME" in df_clean.columns else np.nan
+df_clean["min_experience"] = df_clean["MIN_YEARS_EXPERIENCE"] if "MIN_YEARS_EXPERIENCE" in df_clean.columns else np.nan
+df_clean["max_experience"] = df_clean["MAX_YEARS_EXPERIENCE"] if "MAX_YEARS_EXPERIENCE" in df_clean.columns else np.nan
+
+df_clean["soc_label"] = df_clean["SOC_2021_3_NAME"] if "SOC_2021_3_NAME" in df_clean.columns else df_clean["SOC_3_NAME"]
+df_clean["naics_label"] = df_clean["NAICS_2022_3_NAME"] if "NAICS_2022_3_NAME" in df_clean.columns else df_clean["NAICS3_NAME"]
+df_clean["onet_label"] = df_clean["ONET_NAME"] if "ONET_NAME" in df_clean.columns else np.nan
+df_clean["sector_label"] = df_clean["LIGHTCAST_SECTORS_NAME"] if "LIGHTCAST_SECTORS_NAME" in df_clean.columns else np.nan
+```
+
+### Salary Preparation
+
+```{python}
+df_clean["salary_from_num"] = pd.to_numeric(df_clean["SALARY_FROM"], errors="coerce")
+df_clean["salary_to_num"] = pd.to_numeric(df_clean["SALARY_TO"], errors="coerce")
+
+df_clean["salary_mid"] = df_clean[["salary_from_num", "salary_to_num"]].mean(axis=1)
+
+pay_period = df_clean["ORIGINAL_PAY_PERIOD"].astype(str).str.upper().str.strip()
+annual_mask = pay_period.str.contains("YEAR|ANNUAL", na=False)
+
+df_clean["annual_salary_mid"] = np.where(annual_mask, df_clean["salary_mid"], np.nan)
+```
+
+### Feature Engineering
+
+```{python}
+title_text = (
+    df_clean["job_title"].fillna("").astype(str) + " " +
+    df_clean["occupation_name"].fillna("").astype(str) + " " +
+    df_clean["specialized_occupation"].fillna("").astype(str)
+).str.lower()
+
+analytics_pattern = (
+    r"business analyst|data analyst|data scientist|data science|"
+    r"machine learning|ml engineer|business intelligence|bi analyst|"
+    r"analytics|data engineer|ai engineer|artificial intelligence"
+)
+
+df_clean["is_analytics_role"] = title_text.str.contains(analytics_pattern, regex=True, na=False).astype(int)
+
+def count_items(x):
+    if pd.isna(x):
+        return 0
+    parts = re.split(r"[;|]", str(x))
+    parts = [p.strip() for p in parts if p and p.strip()]
+    return len(parts)
+
+for col in ["skills_all", "skills_specialized", "skills_common", "skills_software"]:
+    df_clean[f"{col}_count"] = df_clean[col].apply(count_items)
+
+df_clean["total_skill_count"] = (
+    df_clean["skills_all_count"]
+    + df_clean["skills_specialized_count"]
+    + df_clean["skills_common_count"]
+    + df_clean["skills_software_count"]
+)
+```
+
+### Final Modeling Dataset
+
+```{python}
+final_cols = [
+    "job_title",
+    "occupation_name",
+    "occupation_group",
+    "specialized_occupation",
+    "salary_from_num",
+    "salary_to_num",
+    "salary_mid",
+    "annual_salary_mid",
+    "remote_type",
+    "city",
+    "state",
+    "education_level",
+    "min_experience",
+    "max_experience",
+    "skills_all",
+    "skills_specialized",
+    "skills_common",
+    "skills_software",
+    "skills_all_count",
+    "skills_specialized_count",
+    "skills_common_count",
+    "skills_software_count",
+    "total_skill_count",
+    "soc_label",
+    "onet_label",
+    "naics_label",
+    "sector_label",
+    "is_analytics_role"
+]
+
+df_model = df_clean[final_cols].copy()
+df_model.shape
+```
+
+```{python}
+df_model.to_csv("data/lightcast_cleaned.csv", index=False)
+```
+
+

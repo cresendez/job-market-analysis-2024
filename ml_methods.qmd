@@ -1,6 +1,250 @@
-## Machine Learning Methods
+## Modeling Methods
 
-We applied clustering techniques to group job postings based on skills and requirements.
+This page presents the main modeling methods used in the project. The goal is to identify patterns in analytics-related job postings and evaluate which factors help explain role groupings and salary differences. The methods include KMeans clustering, salary regression, and role classification.
 
-These methods help identify patterns and similarities across roles.
+### Load Cleaned Data
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+from sklearn.metrics import (
+    silhouette_score,
+    mean_squared_error,
+    r2_score,
+    accuracy_score,
+    f1_score,
+    confusion_matrix,
+    ConfusionMatrixDisplay
+)
+from sklearn.linear_model import LinearRegression, LogisticRegression
+
+df_ml = pd.read_csv("data/lightcast_cleaned.csv")
+df_ml.shape
+```
+
+### Feature Selection Rationale
+
+The selected variables reflect the main dimensions emphasized in the project: skills, experience, education, location, work arrangement, and occupational grouping. For salary analysis, numeric variables are first inspected to see how strongly they relate to annual salary.
+
+```{python}
+salary_corr = df_ml[
+    ["annual_salary_mid", "salary_mid", "min_experience", "max_experience",
+     "skills_all_count", "skills_specialized_count", "skills_common_count",
+     "skills_software_count", "total_skill_count"]
+].corr(numeric_only=True)["annual_salary_mid"].sort_values(ascending=False)
+
+salary_corr
+```
+
+### KMeans Clustering
+
+KMeans clustering is used to identify natural groupings of job postings based on numeric job characteristics. The clustering results are then compared with SOC labels to evaluate whether the clusters align with occupational categories.
+
+```{python}
+cluster_vars = [
+    "salary_mid",
+    "min_experience",
+    "max_experience",
+    "skills_all_count",
+    "skills_specialized_count",
+    "skills_common_count",
+    "skills_software_count",
+    "total_skill_count"
+]
+
+kmeans_df = df_ml[cluster_vars + ["soc_label"]].dropna().copy()
+kmeans_df.shape
+```
+
+```{python}
+X_cluster = kmeans_df[cluster_vars]
+
+scaler = StandardScaler()
+X_cluster_scaled = scaler.fit_transform(X_cluster)
+
+silhouette_scores = {}
+for k in range(2, 7):
+    km = KMeans(n_clusters=k, random_state=42, n_init=10)
+    labels = km.fit_predict(X_cluster_scaled)
+    silhouette_scores[k] = silhouette_score(X_cluster_scaled, labels)
+
+silhouette_scores
+```
+
+```{python}
+best_k = max(silhouette_scores, key=silhouette_scores.get)
+best_k
+```
+
+```{python}
+kmeans = KMeans(n_clusters=best_k, random_state=42, n_init=10)
+kmeans_df["cluster"] = kmeans.fit_predict(X_cluster_scaled)
+
+kmeans_df["cluster"].value_counts().sort_index()
+```
+
+```{python}
+pca = PCA(n_components=2)
+cluster_pca = pca.fit_transform(X_cluster_scaled)
+
+plot_df = pd.DataFrame({
+    "PC1": cluster_pca[:, 0],
+    "PC2": cluster_pca[:, 1],
+    "cluster": kmeans_df["cluster"]
+})
+
+plt.figure(figsize=(8, 6))
+for c in sorted(plot_df["cluster"].unique()):
+    subset = plot_df[plot_df["cluster"] == c]
+    plt.scatter(subset["PC1"], subset["PC2"], label=f"Cluster {c}", alpha=0.5)
+
+plt.title("KMeans Clusters of Job Postings")
+plt.xlabel("Principal Component 1")
+plt.ylabel("Principal Component 2")
+plt.legend()
+plt.show()
+```
+
+```{python}
+top_soc = kmeans_df["soc_label"].value_counts().head(8).index
+cluster_soc_table = pd.crosstab(kmeans_df["cluster"], kmeans_df["soc_label"])[top_soc]
+cluster_soc_table
+```
+
+### Regression Model
+
+A regression model is used to estimate annual salary midpoint based on experience, skill counts, remote arrangement, education, location, and occupation group.
+
+```{python}
+salary_df = df_ml[df_ml["annual_salary_mid"].notna()].copy()
+salary_df.shape
+```
+
+```{python}
+reg_features = [
+    "total_skill_count",
+    "min_experience",
+    "max_experience",
+    "remote_type",
+    "state",
+    "education_level",
+    "occupation_group"
+]
+
+X_reg = salary_df[reg_features]
+y_reg = salary_df["annual_salary_mid"]
+
+numeric_features = ["total_skill_count", "min_experience", "max_experience"]
+categorical_features = ["remote_type", "state", "education_level", "occupation_group"]
+
+numeric_transformer = Pipeline([
+    ("imputer", SimpleImputer(strategy="median")),
+    ("scaler", StandardScaler())
+])
+
+categorical_transformer = Pipeline([
+    ("imputer", SimpleImputer(strategy="most_frequent")),
+    ("onehot", OneHotEncoder(handle_unknown="ignore"))
+])
+
+preprocessor = ColumnTransformer([
+    ("num", numeric_transformer, numeric_features),
+    ("cat", categorical_transformer, categorical_features)
+])
+
+reg_model = Pipeline([
+    ("preprocessor", preprocessor),
+    ("model", LinearRegression())
+])
+
+X_train_reg, X_test_reg, y_train_reg, y_test_reg = train_test_split(
+    X_reg, y_reg, test_size=0.20, random_state=42
+)
+
+reg_model.fit(X_train_reg, y_train_reg)
+reg_pred = reg_model.predict(X_test_reg)
+
+rmse = np.sqrt(mean_squared_error(y_test_reg, reg_pred))
+r2 = r2_score(y_test_reg, reg_pred)
+
+pd.DataFrame({
+    "Metric": ["RMSE", "R2"],
+    "Value": [rmse, r2]
+})
+```
+
+### Classification Model
+
+A classification model is used to predict whether a posting belongs to an analytics-related role using structured job-posting features.
+
+```{python}
+class_features = [
+    "total_skill_count",
+    "min_experience",
+    "max_experience",
+    "remote_type",
+    "state",
+    "education_level",
+    "occupation_group",
+    "sector_label"
+]
+
+X_clf = df_ml[class_features]
+y_clf = df_ml["is_analytics_role"]
+
+numeric_features_clf = ["total_skill_count", "min_experience", "max_experience"]
+categorical_features_clf = ["remote_type", "state", "education_level", "occupation_group", "sector_label"]
+
+preprocessor_clf = ColumnTransformer([
+    ("num", Pipeline([
+        ("imputer", SimpleImputer(strategy="median")),
+        ("scaler", StandardScaler())
+    ]), numeric_features_clf),
+    ("cat", Pipeline([
+        ("imputer", SimpleImputer(strategy="most_frequent")),
+        ("onehot", OneHotEncoder(handle_unknown="ignore"))
+    ]), categorical_features_clf)
+])
+
+clf_model = Pipeline([
+    ("preprocessor", preprocessor_clf),
+    ("model", LogisticRegression(max_iter=1000))
+])
+
+X_train_clf, X_test_clf, y_train_clf, y_test_clf = train_test_split(
+    X_clf, y_clf, test_size=0.20, random_state=42, stratify=y_clf
+)
+
+clf_model.fit(X_train_clf, y_train_clf)
+clf_pred = clf_model.predict(X_test_clf)
+
+acc = accuracy_score(y_test_clf, clf_pred)
+f1 = f1_score(y_test_clf, clf_pred)
+
+pd.DataFrame({
+    "Metric": ["Accuracy", "F1 Score"],
+    "Value": [acc, f1]
+})
+```
+
+```{python}
+cm = confusion_matrix(y_test_clf, clf_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+disp.plot()
+plt.title("Confusion Matrix: Analytics Role Classification")
+plt.show()
+```
+
+### Interpretation for Job Seekers
+
+The clustering results show whether job postings naturally group into distinct types and whether those groups resemble official occupational classifications. The regression model evaluates which job characteristics are associated with salary outcomes, while the classification model identifies which structured features best distinguish analytics-related roles. Together, these methods help translate labor market data into practical guidance for students and job seekers.
 

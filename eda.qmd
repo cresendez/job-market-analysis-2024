@@ -3,3 +3,134 @@
 - Python and SQL are the most in-demand skills  
 - Salaries vary significantly by industry  
 - Experience increases salary but with variability  
+
+## Exploratory Data Analysis
+
+This page summarizes the main descriptive patterns in the cleaned Lightcast job-posting dataset. The goal is to understand the distribution of analytics-related roles, salary patterns, work arrangements, and skills before applying clustering, regression, and classification methods.
+
+### Load Cleaned Data
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df_eda = pd.read_csv("data/lightcast_cleaned.csv")
+df_eda.shape
+```
+
+### Analytics vs. Non-Analytics Roles
+
+This section compares the number of postings classified as analytics-related versus all other roles.
+
+```{python}
+role_counts = df_eda["is_analytics_role"].value_counts(dropna=False)
+role_counts
+```
+
+```{python}
+role_counts.plot(kind="bar")
+plt.title("Analytics vs. Non-Analytics Job Postings")
+plt.xlabel("Is Analytics Role")
+plt.ylabel("Count")
+plt.xticks(rotation=0)
+plt.show()
+```
+
+### Salary Distribution
+
+This section examines the distribution of annual salary midpoints for postings with annual salary information.
+
+```{python}
+salary_data = df_eda["annual_salary_mid"].dropna()
+salary_data.describe()
+```
+
+```{python}
+salary_data.plot(kind="hist", bins=30)
+plt.title("Distribution of Annual Salary Midpoints")
+plt.xlabel("Annual Salary Midpoint")
+plt.ylabel("Frequency")
+plt.show()
+```
+
+### Remote Work Patterns
+
+This section summarizes the work arrangement categories available in the dataset.
+
+```{python}
+remote_counts = df_eda["remote_type"].value_counts(dropna=False)
+remote_counts
+```
+
+```{python}
+remote_counts.plot(kind="bar")
+plt.title("Remote Work Arrangement Distribution")
+plt.xlabel("Remote Type")
+plt.ylabel("Count")
+plt.xticks(rotation=45)
+plt.show()
+```
+
+### Education Requirements
+
+This section shows the most common education levels requested in the postings.
+
+```{python}
+education_counts = df_eda["education_level"].value_counts(dropna=False).head(10)
+education_counts
+```
+
+```{python}
+education_counts.plot(kind="bar")
+plt.title("Top Education Levels in Job Postings")
+plt.xlabel("Education Level")
+plt.ylabel("Count")
+plt.xticks(rotation=45, ha="right")
+plt.show()
+```
+
+### Experience Requirements
+
+This section summarizes years of experience requested across postings.
+
+```{python}
+df_eda[["min_experience", "max_experience"]].describe()
+```
+
+### Skill Count Distribution
+
+This section examines how many skills are listed across job postings using the constructed skill count variable.
+
+```{python}
+df_eda["total_skill_count"].describe()
+```
+
+```{python}
+df_eda["total_skill_count"].dropna().plot(kind="hist", bins=30)
+plt.title("Distribution of Total Skill Counts")
+plt.xlabel("Total Skill Count")
+plt.ylabel("Frequency")
+plt.show()
+```
+
+### Top Occupation Groups
+
+This section highlights the most common occupation groups in the cleaned dataset.
+
+```{python}
+top_occ_groups = df_eda["occupation_group"].value_counts().head(10)
+top_occ_groups
+```
+
+```{python}
+top_occ_groups.plot(kind="bar")
+plt.title("Top Occupation Groups")
+plt.xlabel("Occupation Group")
+plt.ylabel("Count")
+plt.xticks(rotation=45, ha="right")
+plt.show()
+```
+
+### Key Takeaways
+
+The exploratory analysis provides a first view of how analytics-related roles compare with the rest of the dataset. It also highlights salary availability, remote work patterns, education requirements, experience ranges, and variation in skill counts. These results help identify which variables are useful for skill comparisons, clustering, regression, and classification in the next sections.

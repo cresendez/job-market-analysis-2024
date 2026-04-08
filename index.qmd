@@ -22,12 +22,12 @@ Another reason this topic is worth studying is that advanced analytics is now se
 
 ## Business Analytics, Data Science, and Machine Learning Trends
 
-This project will focus on the following questions:
+This project focuses on the following questions:
 
-- What skills are most in demand for business analytics, data science, and machine learning roles?
-- How are job descriptions evolving as AI and advanced analytics become more common?
-- What do recent studies suggest about the relationship between technical skills and soft skills in analytics-related roles?
-- What can students learn from these trends when planning their own career paths?
+- What structured features best distinguish business analytics, data science, and machine learning roles from other job postings?
+- Which job characteristics are most associated with higher salaries in analytics-related roles?
+- Do natural clusters of analytics-related job postings align with official occupational groupings such as SOC, ONET, or NAICS?
+- What practical insights can students and job seekers use from these patterns?
 
 # Brief Literature Review
 Recent research suggests that skill demand is becoming easier to track, but also more likely to change over time. The *Job-SDF* paper uses millions of public job ads to study skill demand across occupations, companies, and regions. One of the main takeaways is that demand for skills does not stay steady. Some skills rise or fall at different times, and labor market changes can shift what employers are looking for. This matters because it shows that understanding today’s job market takes more than just looking at a fixed list of popular skills [@chen2024jobsdf].

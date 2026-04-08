@@ -1,5 +1,4 @@
+
 ## NLP Methods
 
-We used text processing techniques to extract key skills from job descriptions.
-
-This includes tokenization and frequency analysis.
+This section is included as an optional extension of the project. The main analysis in this project focuses on structured exploratory analysis, skill patterns, clustering, regression, and classification. Because the required evaluation is already addressed through those methods, natural language processing is treated as a secondary component in the current version of the project.
