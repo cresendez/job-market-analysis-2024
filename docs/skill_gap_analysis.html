@@ -209,7 +209,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This page examines which skills appear most often in analytics-related job postings and what those patterns suggest for students preparing for business analytics, data science, and machine learning careers. The goal is to compare market demand with the types of skills that job seekers may need to strengthen.</p>
 <section id="load-cleaned-data" class="level3">
 <h3 class="anchored" data-anchor-id="load-cleaned-data">Load Cleaned Data</h3>
-<div id="0013abf7" class="cell" data-execution_count="1">
+<div id="c5b90b94" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -223,7 +223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="focus-on-analytics-related-roles" class="level3">
 <h3 class="anchored" data-anchor-id="focus-on-analytics-related-roles">Focus on Analytics-Related Roles</h3>
 <p>This section limits the analysis to postings identified as analytics-related in the data cleaning stage.</p>
-<div id="05b39af5" class="cell" data-execution_count="2">
+<div id="798925a6" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>analytics_df <span class="op">=</span> df_skills[df_skills[<span class="st">"is_analytics_role"</span>] <span class="op">==</span> <span class="dv">1</span>].copy()</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>analytics_df.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -234,7 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="most-common-specialized-skills" class="level3">
 <h3 class="anchored" data-anchor-id="most-common-specialized-skills">Most Common Specialized Skills</h3>
 <p>This section identifies the most frequent specialized skills appearing in analytics-related roles.</p>
-<div id="abc907ac" class="cell" data-execution_count="3">
+<div id="57d99742" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>specialized <span class="op">=</span> (</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    analytics_df[<span class="st">"skills_specialized"</span>]</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    .dropna()</span>
@@ -266,7 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="5223c186" class="cell" data-execution_count="4">
+<div id="0321c1ef" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>top_specialized.plot(kind<span class="op">=</span><span class="st">"bar"</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Top Specialized Skills in Analytics-Related Roles"</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Skill"</span>)</span>
@@ -285,7 +285,7 @@ Name: count, dtype: int64</code></pre>
 <section id="most-common-software-skills" class="level3">
 <h3 class="anchored" data-anchor-id="most-common-software-skills">Most Common Software Skills</h3>
 <p>This section highlights the software tools that appear most often in analytics-related job postings.</p>
-<div id="48374272" class="cell" data-execution_count="5">
+<div id="242a6cad" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>software <span class="op">=</span> (</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    analytics_df[<span class="st">"skills_software"</span>]</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    .dropna()</span>
@@ -317,7 +317,7 @@ Name: count, dtype: int64</code></pre>
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="638b1c16" class="cell" data-execution_count="6">
+<div id="78d35d05" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>top_software.plot(kind<span class="op">=</span><span class="st">"bar"</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Top Software Skills in Analytics-Related Roles"</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Software Skill"</span>)</span>
@@ -336,7 +336,7 @@ Name: count, dtype: int64</code></pre>
 <section id="most-common-common-skills" class="level3">
 <h3 class="anchored" data-anchor-id="most-common-common-skills">Most Common Common Skills</h3>
 <p>This section shows broader workplace and transferable skills that appear across analytics-related roles.</p>
-<div id="15a96f8d" class="cell" data-execution_count="7">
+<div id="d73f7b4e" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>common_skills <span class="op">=</span> (</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    analytics_df[<span class="st">"skills_common"</span>]</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    .dropna()</span>
@@ -368,7 +368,7 @@ Name: count, dtype: int64</code></pre>
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="fa1846dd" class="cell" data-execution_count="8">
+<div id="936c61d9" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>top_common.plot(kind<span class="op">=</span><span class="st">"bar"</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Top Common Skills in Analytics-Related Roles"</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Common Skill"</span>)</span>
@@ -387,7 +387,7 @@ Name: count, dtype: int64</code></pre>
 <section id="skill-counts-by-role-type" class="level3">
 <h3 class="anchored" data-anchor-id="skill-counts-by-role-type">Skill Counts by Role Type</h3>
 <p>This section compares the average total number of listed skills between analytics-related and non-analytics roles.</p>
-<div id="aba4196d" class="cell" data-execution_count="9">
+<div id="be1151d4" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>skill_count_summary <span class="op">=</span> (</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    df_skills.groupby(<span class="st">"is_analytics_role"</span>)[<span class="st">"total_skill_count"</span>]</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
@@ -424,7 +424,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="fd8319f0" class="cell" data-execution_count="10">
+<div id="ae11e6a2" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>skill_count_summary.plot(</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"is_analytics_role"</span>,</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">"total_skill_count"</span>,</span>

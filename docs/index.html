@@ -23,26 +23,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -161,12 +142,10 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#business-analytics-data-science-and-machine-learning-trends" id="toc-business-analytics-data-science-and-machine-learning-trends" class="nav-link" data-scroll-target="#business-analytics-data-science-and-machine-learning-trends">Business Analytics, Data Science, and Machine Learning Trends</a></li>
   </ul></li>
-  <li><a href="#brief-literature-review" id="toc-brief-literature-review" class="nav-link" data-scroll-target="#brief-literature-review">Brief Literature Review</a></li>
+  <li><a href="#methods-overview" id="toc-methods-overview" class="nav-link" data-scroll-target="#methods-overview">Methods Overview</a></li>
+  <li><a href="#site-contents" id="toc-site-contents" class="nav-link" data-scroll-target="#site-contents">Site Contents</a></li>
   <li><a href="#preliminary-discussion" id="toc-preliminary-discussion" class="nav-link" data-scroll-target="#preliminary-discussion">Preliminary Discussion</a></li>
-  <li><a href="#team-members" id="toc-team-members" class="nav-link" data-scroll-target="#team-members">Team Members</a>
-  <ul class="collapse">
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"># References</a></li>
-  </ul></li>
+  <li><a href="#team-members" id="toc-team-members" class="nav-link" data-scroll-target="#team-members">Team Members</a></li>
   </ul>
 </nav>
     </div>
@@ -194,14 +173,11 @@ div.csl-indent {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>The job market in 2024 feels promising, but also a little overwhelming, especially for students trying to figure out where they fit. Roles in business analytics, data science, and machine learning continue to grow, but so do employer expectations. It is no longer enough to simply say someone is “good with data.” Employers are looking for a more specific mix of technical skills, business understanding, and the ability to adapt as tools and technologies keep changing.</p>
-<p>This project focuses on business analytics, data science, and machine learning trends in 2024. The goal is to better understand what employers are asking for, what skills seem to matter most, and how students can position themselves more strategically in a competitive job market. Recent research shows that job-skill demand can now be studied directly through large collections of online job advertisements, making it possible to track skill needs across occupations, companies, and regions <span class="citation" data-cites="chen2024jobsdf">(<a href="#ref-chen2024jobsdf" role="doc-biblioref">Chen et al. 2024</a>)</span>. At the same time, research on data analyst roles shows that technical and soft skills continue to appear together in job postings, which makes this topic especially relevant for students preparing for analytics-related careers <span class="citation" data-cites="lim2024dataanalyst">(<a href="#ref-lim2024dataanalyst" role="doc-biblioref">Lim and Sörling 2024</a>)</span>.</p>
+<p>This project examines business analytics, data science, and machine learning trends in the 2024 job market. The goal is to better understand what employers are asking for, which skills seem to matter most, and how students can position themselves more effectively for analytics-related careers. As employer expectations become more specific, labor market data can help show how technical skills, business knowledge, and workplace capabilities come together in real job postings.</p>
 </section>
 <section id="research-rationale" class="level1">
 <h1>Research Rationale</h1>
-<p>This topic matters because a lot of students hear that analytics and AI are “good fields to go into,” but that advice is still too broad to be useful. What students really need to know is which specific skills employers are asking for, how those expectations are changing, and whether business analytics, data science, and machine learning jobs are starting to look more similar than they used to.</p>
-<p>The topic also matters because organizations themselves are struggling to keep up with changing skill needs. Research on workforce planning shows that traditional planning methods often move too slowly when technology is changing fast, and that predictive analytics can help organizations identify skill gaps earlier, rather than waiting to react after those gaps have already become a problem <span class="citation" data-cites="gulyamov2024predictive">(<a href="#ref-gulyamov2024predictive" role="doc-biblioref">Gulyamov et al. 2024</a>)</span>.</p>
-<p>Another reason this topic is worth studying is that advanced analytics is now seen as a key part of improving efficiency, productivity, and decision-making in business settings <span class="citation" data-cites="adesina2024optimizing">(<a href="#ref-adesina2024optimizing" role="doc-biblioref">Adesina et al. 2024</a>)</span>.</p>
+<p>This topic matters because students often hear that analytics and AI are strong career paths, but that advice is usually too broad to be actionable. A more useful approach is to study real job-posting data and identify the skills, salary patterns, and role characteristics that appear most often in the market. This helps translate general career advice into more practical guidance.</p>
 </section>
 <section id="selected-topic" class="level1">
 <h1>Selected Topic</h1>
@@ -211,50 +187,40 @@ div.csl-indent {
 <ul>
 <li>What structured features best distinguish business analytics, data science, and machine learning roles from other job postings?</li>
 <li>Which job characteristics are most associated with higher salaries in analytics-related roles?</li>
-<li>Do natural clusters of analytics-related job postings align with official occupational groupings such as SOC, ONET, or NAICS?</li>
+<li>Do natural clusters of analytics-related job postings align with occupational groupings such as SOC, ONET, or NAICS?</li>
 <li>What practical insights can students and job seekers use from these patterns?</li>
 </ul>
 </section>
 </section>
-<section id="brief-literature-review" class="level1">
-<h1>Brief Literature Review</h1>
-<p>Recent research suggests that skill demand is becoming easier to track, but also more likely to change over time. The <em>Job-SDF</em> paper uses millions of public job ads to study skill demand across occupations, companies, and regions. One of the main takeaways is that demand for skills does not stay steady. Some skills rise or fall at different times, and labor market changes can shift what employers are looking for. This matters because it shows that understanding today’s job market takes more than just looking at a fixed list of popular skills <span class="citation" data-cites="chen2024jobsdf">(<a href="#ref-chen2024jobsdf" role="doc-biblioref">Chen et al. 2024</a>)</span>.</p>
-<p>The study <em>The Data Analyst Job Landscape</em> is especially useful for this project because it shows that employers still ask for both technical and soft skills. Across job postings and prior studies, skills such as SQL, Excel, Python, R, Tableau, teamwork, communication, and problem-solving continue to appear often. The study also suggests that while some skills remain highly demanded, others may be becoming a little less important compared to newer tools and technologies <span class="citation" data-cites="lim2024dataanalyst">(<a href="#ref-lim2024dataanalyst" role="doc-biblioref">Lim and Sörling 2024</a>)</span>.</p>
-<p>The article on predictive analytics for workforce planning helps explain why companies are paying more attention to forecasting skill needs. It shows that tools like machine learning and real-time data can help employers notice skill gaps earlier and respond before those gaps become bigger problems. This matters for the project because it suggests that hiring needs are becoming more data-driven, which also means students need to be more thoughtful about which skills they choose to build <span class="citation" data-cites="gulyamov2024predictive">(<a href="#ref-gulyamov2024predictive" role="doc-biblioref">Gulyamov et al. 2024</a>)</span>.</p>
-<p>Finally, the article on advanced analytics and business process optimization helps show why analytics skills matter in business. It explains that tools such as predictive analytics, automation, and AI are being used more often to improve productivity and support better decisions. Even though this article is broader than job-market research, it still helps support the idea that analytics-related skills are becoming more important in business, which helps explain why employers continue to invest in these roles <span class="citation" data-cites="adesina2024optimizing">(<a href="#ref-adesina2024optimizing" role="doc-biblioref">Adesina et al. 2024</a>)</span>.</p>
+<section id="methods-overview" class="level1">
+<h1>Methods Overview</h1>
+<p>The project uses a cleaned Lightcast job-posting dataset and applies several complementary methods. First, exploratory data analysis is used to summarize salary patterns, role distributions, work arrangements, and skill counts. Second, a skill gap analysis identifies the most common specialized, software, and common skills in analytics-related postings. Third, KMeans clustering is used to identify natural groupings of job postings. Finally, regression and classification models are used to study salary outcomes and distinguish analytics-related roles from other postings.</p>
+</section>
+<section id="site-contents" class="level1">
+<h1>Site Contents</h1>
+<p>This website is organized into the following sections:</p>
+<ul>
+<li>Introduction</li>
+<li>Data Cleaning &amp; Exploration</li>
+<li>Exploratory Data Analysis</li>
+<li>Skill Gap Analysis</li>
+<li>Modeling Methods</li>
+<li>NLP Methods</li>
+</ul>
 </section>
 <section id="preliminary-discussion" class="level1">
 <h1>Preliminary Discussion</h1>
-<p>Based on these sources, this project expects to find that business analytics, data science, and machine learning roles continue to grow in importance, but not in exactly the same way. Business analytics roles will likely remain closely tied to SQL, visualization tools, reporting, and business decision-making, while data science and machine learning roles may place more weight on programming, modeling, and forecasting.</p>
-<p>It also seems likely that the most competitive job candidates are not simply the most technical ones. The articles keeps returning to the same idea: employers want people who can work with data, but also explain it, use it for decisions, and collaborate across teams. That means technical skills still matter a lot, but communication, teamwork, and business understanding matter too.</p>
-<p>Another likely finding is that employers are starting to think more about future skill needs, not just the ones they need right now. Research on skill forecasting suggests that companies are trying to prepare earlier for changes in the labor market. If that is true, then students may benefit not only from learning the skills that are in demand today, but also from staying flexible and continuing to learn as tools and expectations change. <span class="citation" data-cites="chen2024jobsdf lim2024dataanalyst gulyamov2024predictive">(<a href="#ref-chen2024jobsdf" role="doc-biblioref">Chen et al. 2024</a>; <a href="#ref-lim2024dataanalyst" role="doc-biblioref">Lim and Sörling 2024</a>; <a href="#ref-gulyamov2024predictive" role="doc-biblioref">Gulyamov et al. 2024</a>)</span></p>
-<p>From a student perspective, these trends also highlight the importance of continuous learning. As analytics tools and technologies evolve quickly,students preparing for careers in business analytics or data science may benefit from building both strong technical foundations and adaptable problem-solving skills. This project will help explore which skills appear most frequently in job postings and how students can better prepare for these expectations.</p>
+<p>The results of this project are intended to support career planning by showing how labor market demand is reflected in real job-posting data. Rather than treating analytics careers as one broad category, the project separates skill patterns, salary relationships, and occupational structure to provide a more practical view of the market.</p>
 </section>
 <section id="team-members" class="level1">
 <h1>Team Members</h1>
-<p>Carolina Resendez Saori Kikuchi</p>
-<section id="references" class="level2">
-
-
+<p>Carolina Resendez<br>
+Saori Kikuchi</p>
 
 
 </section>
-</section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading"># References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-adesina2024optimizing" class="csl-entry" role="listitem">
-Adesina, Abayomi Abraham, Toluwalase Vanessa Iyelolu, and Patience Okpeke Paul. 2024. <span>“Optimizing Business Processes with Advanced Analytics: Techniques for Efficiency and Productivity Improvement.”</span> <em>World Journal of Advanced Research and Reviews</em> 22 (3): 1917–26. <a href="https://doi.org/10.30574/wjarr.2024.22.3.1960">https://doi.org/10.30574/wjarr.2024.22.3.1960</a>.
-</div>
-<div id="ref-chen2024jobsdf" class="csl-entry" role="listitem">
-Chen, Xi, Chuan Qin, Chuyu Fang, et al. 2024. <span>“Job-SDF: A Multi-Granularity Dataset for Job Skill Demand Forecasting and Benchmarking.”</span> <em>Advances in Neural Information Processing Systems</em>.
-</div>
-<div id="ref-gulyamov2024predictive" class="csl-entry" role="listitem">
-Gulyamov, Said Saidakhrarovich, Dilbar Suyunova, Jahongir Juraev, et al. 2024. <span>“Predictive Analytics for Workforce Planning in the Context of Digital Transformation of Manufacturing.”</span> <em>IEEE</em>.
-</div>
-<div id="ref-lim2024dataanalyst" class="csl-entry" role="listitem">
-Lim, Johan Bengt, and Anna Sörling. 2024. <span>“The Data Analyst Job Landscape: Insights on Skills Requirements.”</span> Master’s thesis, Lund University.
-</div>
-</div></section></div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

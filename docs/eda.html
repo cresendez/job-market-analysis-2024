@@ -223,7 +223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This page summarizes the main descriptive patterns in the cleaned Lightcast job-posting dataset. The goal is to understand the distribution of analytics-related roles, salary patterns, work arrangements, and skills before applying clustering, regression, and classification methods.</p>
 <section id="load-cleaned-data" class="level3">
 <h3 class="anchored" data-anchor-id="load-cleaned-data">Load Cleaned Data</h3>
-<div id="ace3e5b2" class="cell" data-execution_count="1">
+<div id="1cf3b9de" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -237,7 +237,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="analytics-vs.-non-analytics-roles" class="level3">
 <h3 class="anchored" data-anchor-id="analytics-vs.-non-analytics-roles">Analytics vs.&nbsp;Non-Analytics Roles</h3>
 <p>This section compares the number of postings classified as analytics-related versus all other roles.</p>
-<div id="2bafda9f" class="cell" data-execution_count="2">
+<div id="ad46f665" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>role_counts <span class="op">=</span> df_eda[<span class="st">"is_analytics_role"</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>role_counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
@@ -247,7 +247,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="a5c39858" class="cell" data-execution_count="3">
+<div id="c6fea506" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>role_counts.plot(kind<span class="op">=</span><span class="st">"bar"</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Analytics vs. Non-Analytics Job Postings"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Is Analytics Role"</span>)</span>
@@ -266,7 +266,7 @@ Name: count, dtype: int64</code></pre>
 <section id="salary-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="salary-distribution">Salary Distribution</h3>
 <p>This section examines the distribution of annual salary midpoints for postings with annual salary information.</p>
-<div id="16ced732" class="cell" data-execution_count="4">
+<div id="6b15acaf" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>salary_data <span class="op">=</span> df_eda[<span class="st">"annual_salary_mid"</span>].dropna()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>salary_data.describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
@@ -281,7 +281,7 @@ max      800000.000000
 Name: annual_salary_mid, dtype: float64</code></pre>
 </div>
 </div>
-<div id="007eaaa2" class="cell" data-execution_count="5">
+<div id="fd6e536b" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>salary_data.plot(kind<span class="op">=</span><span class="st">"hist"</span>, bins<span class="op">=</span><span class="dv">30</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of Annual Salary Midpoints"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Annual Salary Midpoint"</span>)</span>
@@ -299,7 +299,7 @@ Name: annual_salary_mid, dtype: float64</code></pre>
 <section id="remote-work-patterns" class="level3">
 <h3 class="anchored" data-anchor-id="remote-work-patterns">Remote Work Patterns</h3>
 <p>This section summarizes the work arrangement categories available in the dataset.</p>
-<div id="a6166801" class="cell" data-execution_count="6">
+<div id="f9197d32" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>remote_counts <span class="op">=</span> df_eda[<span class="st">"remote_type"</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>remote_counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -312,7 +312,7 @@ NaN                 44
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="6ffdbbd8" class="cell" data-execution_count="7">
+<div id="3eda3927" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>remote_counts.plot(kind<span class="op">=</span><span class="st">"bar"</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Remote Work Arrangement Distribution"</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Remote Type"</span>)</span>
@@ -331,7 +331,7 @@ Name: count, dtype: int64</code></pre>
 <section id="education-requirements" class="level3">
 <h3 class="anchored" data-anchor-id="education-requirements">Education Requirements</h3>
 <p>This section shows the most common education levels requested in the postings.</p>
-<div id="2fedf641" class="cell" data-execution_count="8">
+<div id="5aefcdc0" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>education_counts <span class="op">=</span> df_eda[<span class="st">"education_level"</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>education_counts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
@@ -349,7 +349,7 @@ Name: count, dtype: int64</code></pre>
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="90cff772" class="cell" data-execution_count="9">
+<div id="3070f1bc" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>education_counts.plot(kind<span class="op">=</span><span class="st">"bar"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Top Education Levels in Job Postings"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Education Level"</span>)</span>
@@ -368,7 +368,7 @@ Name: count, dtype: int64</code></pre>
 <section id="experience-requirements" class="level3">
 <h3 class="anchored" data-anchor-id="experience-requirements">Experience Requirements</h3>
 <p>This section summarizes years of experience requested across postings.</p>
-<div id="99854c30" class="cell" data-execution_count="10">
+<div id="be29de29" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df_eda[[<span class="st">"min_experience"</span>, <span class="st">"max_experience"</span>]].describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <div>
@@ -433,7 +433,7 @@ Name: count, dtype: int64</code></pre>
 <section id="skill-count-distribution" class="level3">
 <h3 class="anchored" data-anchor-id="skill-count-distribution">Skill Count Distribution</h3>
 <p>This section examines how many skills are listed across job postings using the constructed skill count variable.</p>
-<div id="45023a31" class="cell" data-execution_count="11">
+<div id="c36d408d" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_eda[<span class="st">"total_skill_count"</span>].describe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>count    72498.000000
@@ -447,7 +447,7 @@ max          4.000000
 Name: total_skill_count, dtype: float64</code></pre>
 </div>
 </div>
-<div id="846f6bfa" class="cell" data-execution_count="12">
+<div id="ff6135ec" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df_eda[<span class="st">"total_skill_count"</span>].dropna().plot(kind<span class="op">=</span><span class="st">"hist"</span>, bins<span class="op">=</span><span class="dv">30</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of Total Skill Counts"</span>)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Total Skill Count"</span>)</span>
@@ -465,7 +465,7 @@ Name: total_skill_count, dtype: float64</code></pre>
 <section id="top-occupation-groups" class="level3">
 <h3 class="anchored" data-anchor-id="top-occupation-groups">Top Occupation Groups</h3>
 <p>This section highlights the most common occupation groups in the cleaned dataset.</p>
-<div id="53fc334d" class="cell" data-execution_count="13">
+<div id="856b6ae7" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>top_occ_groups <span class="op">=</span> df_eda[<span class="st">"occupation_group"</span>].value_counts().head(<span class="dv">10</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>top_occ_groups</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
@@ -479,7 +479,7 @@ Marketing Specialists                153
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="96da6003" class="cell" data-execution_count="14">
+<div id="bdd23645" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>top_occ_groups.plot(kind<span class="op">=</span><span class="st">"bar"</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Top Occupation Groups"</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Occupation Group"</span>)</span>

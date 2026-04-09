@@ -208,7 +208,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This page presents the main modeling methods used in the project. The goal is to identify patterns in analytics-related job postings and evaluate which factors help explain role groupings and salary differences. The methods include KMeans clustering, salary regression, and role classification.</p>
 <section id="load-cleaned-data" class="level3">
 <h3 class="anchored" data-anchor-id="load-cleaned-data">Load Cleaned Data</h3>
-<div id="e2aab050" class="cell" data-execution_count="1">
+<div id="fb485787" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -241,7 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="feature-selection-rationale" class="level3">
 <h3 class="anchored" data-anchor-id="feature-selection-rationale">Feature Selection Rationale</h3>
 <p>The selected variables reflect the main dimensions emphasized in the project: skills, experience, education, location, work arrangement, and occupational grouping. For salary analysis, numeric variables are first inspected to see how strongly they relate to annual salary.</p>
-<div id="a3ffdea4" class="cell" data-execution_count="2">
+<div id="3dd04336" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>salary_corr <span class="op">=</span> df_ml[</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">"annual_salary_mid"</span>, <span class="st">"salary_mid"</span>, <span class="st">"min_experience"</span>, <span class="st">"max_experience"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>     <span class="st">"skills_all_count"</span>, <span class="st">"skills_specialized_count"</span>, <span class="st">"skills_common_count"</span>,</span>
@@ -266,7 +266,7 @@ Name: annual_salary_mid, dtype: float64</code></pre>
 <section id="kmeans-clustering" class="level3">
 <h3 class="anchored" data-anchor-id="kmeans-clustering">KMeans Clustering</h3>
 <p>KMeans clustering is used to identify natural groupings of job postings based on numeric job characteristics. The clustering results are then compared with SOC labels to evaluate whether the clusters align with occupational categories.</p>
-<div id="33527c9a" class="cell" data-execution_count="3">
+<div id="5759b26f" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cluster_vars <span class="op">=</span> [</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"salary_mid"</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"min_experience"</span>,</span>
@@ -284,7 +284,7 @@ Name: annual_salary_mid, dtype: float64</code></pre>
 <pre><code>(3938, 9)</code></pre>
 </div>
 </div>
-<div id="1dfeb362" class="cell" data-execution_count="4">
+<div id="3548ebc5" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>X_cluster <span class="op">=</span> kmeans_df[cluster_vars]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
@@ -305,14 +305,14 @@ Name: annual_salary_mid, dtype: float64</code></pre>
  6: 0.419437401417407}</code></pre>
 </div>
 </div>
-<div id="0a9dda07" class="cell" data-execution_count="5">
+<div id="78dd37e7" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>best_k <span class="op">=</span> <span class="bu">max</span>(silhouette_scores, key<span class="op">=</span>silhouette_scores.get)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>best_k</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>2</code></pre>
 </div>
 </div>
-<div id="6058f7be" class="cell" data-execution_count="6">
+<div id="529cb044" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>best_k, random_state<span class="op">=</span><span class="dv">42</span>, n_init<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>kmeans_df[<span class="st">"cluster"</span>] <span class="op">=</span> kmeans.fit_predict(X_cluster_scaled)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -324,7 +324,7 @@ Name: annual_salary_mid, dtype: float64</code></pre>
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<div id="3f4bb290" class="cell" data-execution_count="7">
+<div id="07d46e24" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>cluster_pca <span class="op">=</span> pca.fit_transform(X_cluster_scaled)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -352,7 +352,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="ffa177ce" class="cell" data-execution_count="8">
+<div id="e2ea5415" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>top_soc <span class="op">=</span> kmeans_df[<span class="st">"soc_label"</span>].value_counts().head(<span class="dv">8</span>).index</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>cluster_soc_table <span class="op">=</span> pd.crosstab(kmeans_df[<span class="st">"cluster"</span>], kmeans_df[<span class="st">"soc_label"</span>])[top_soc]</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>cluster_soc_table</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -390,14 +390,14 @@ Name: count, dtype: int64</code></pre>
 <section id="regression-model" class="level3">
 <h3 class="anchored" data-anchor-id="regression-model">Regression Model</h3>
 <p>A regression model is used to estimate annual salary midpoint based on experience, skill counts, remote arrangement, education, location, and occupation group.</p>
-<div id="86a9ea56" class="cell" data-execution_count="9">
+<div id="b636c402" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>salary_df <span class="op">=</span> df_ml[df_ml[<span class="st">"annual_salary_mid"</span>].notna()].copy()</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>salary_df.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>(23693, 28)</code></pre>
 </div>
 </div>
-<div id="c85e2d0c" class="cell" data-execution_count="10">
+<div id="7eaebf1a" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>reg_features <span class="op">=</span> [</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"total_skill_count"</span>,</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"min_experience"</span>,</span>
@@ -464,7 +464,7 @@ Name: count, dtype: int64</code></pre>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">0</th>
 <td>RMSE</td>
-<td>38660.264301</td>
+<td>38660.269117</td>
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">1</th>
@@ -481,7 +481,7 @@ Name: count, dtype: int64</code></pre>
 <section id="classification-model" class="level3">
 <h3 class="anchored" data-anchor-id="classification-model">Classification Model</h3>
 <p>A classification model is used to predict whether a posting belongs to an analytics-related role using structured job-posting features.</p>
-<div id="91ffed3f" class="cell" data-execution_count="11">
+<div id="77da12a7" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>class_features <span class="op">=</span> [</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"total_skill_count"</span>,</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"min_experience"</span>,</span>
@@ -558,7 +558,7 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="d599dcdd" class="cell" data-execution_count="12">
+<div id="d7f0b59c" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test_clf, clf_pred)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>disp <span class="op">=</span> ConfusionMatrixDisplay(confusion_matrix<span class="op">=</span>cm)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>disp.plot()</span>
